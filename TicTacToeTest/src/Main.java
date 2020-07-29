@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class Main implements ActionListener {
     static JButton buttons[] = new JButton[9];
+    static JButton restartButton;
     static int round = 0;
     static int turn = 1;
     static boolean gameOn = true;
@@ -20,36 +21,44 @@ public class Main implements ActionListener {
     Main() {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
+        frame.setSize(500, 750);
+        frame.add(panel);
 
-        panel.setBorder(BorderFactory.createEmptyBorder(3,3,1,3));
-        panel.setLayout(new GridLayout(4, 3));
+
+//        panel.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
+
+
+//        panel.setLayout(new GridLayout(5, 3));
 
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton("");
-            buttons[i].setPreferredSize(new Dimension(250, 250));
+            buttons[i].setPreferredSize(new Dimension(150, 150));
             buttons[i].addActionListener(this);
             buttons[i].setFont(new Font("Dialog", Font.BOLD, 100));
             panel.add(buttons[i]);
         }
 
-        frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        frame.setResizable(false);
-        frame.setTitle("test");
-        frame.pack();
-        frame.setVisible(true);
 
-        label = new JLabel("Plr");
-        label.setFont(new Font("Dialog", Font.BOLD, 100));
+        label = new JLabel("Plr ");
+        label.setFont(new Font("Dialog", Font.BOLD, 75));
         label2 = new JLabel("1's");
-        label2.setFont(new Font("Dialog", Font.BOLD, 100));
-        label3 = new JLabel("turn");
-        label3.setFont(new Font("Dialog", Font.BOLD, 100));
+        label2.setFont(new Font("Dialog", Font.BOLD, 75));
+        label3 = new JLabel(" turn");
+        label3.setFont(new Font("Dialog", Font.BOLD, 75));
 
         panel.add(label);
         panel.add(label2);
         panel.add(label3);
+
+        restartButton = new JButton("Play Again");
+        restartButton.setPreferredSize(new Dimension(300, 100));
+        restartButton.addActionListener(this);
+        panel.add(restartButton);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setTitle("test");
+        frame.setVisible(true);
 
 
     }
@@ -96,7 +105,8 @@ public class Main implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton) {
-            if (gameOn == true) {
+
+            if (gameOn) {
                 if (turn == 1) {
                     letter = "X";
                     if (((JButton) e.getSource()).getText().isEmpty()) {
@@ -140,6 +150,17 @@ public class Main implements ActionListener {
                         gameOn = false;
                     }
                 }
+            }
+        }
+        if (e.getSource() == restartButton) {
+            if (!gameOn) {
+                System.out.println("hi");
+                for (int i = 0; i < ticArray.length; i++) {
+                    ticArray[i] = ' ';
+                    buttons[i].setText("");
+                }
+                round = 0;
+                gameOn = true;
             }
         }
     }
